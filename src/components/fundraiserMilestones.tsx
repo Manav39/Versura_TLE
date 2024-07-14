@@ -1,11 +1,11 @@
-import {FundraiserPageProps} from "@/pages/fundraisers/[fundraiserId]";
-import {EuiButton, EuiFlexGroup, EuiFlexItem, EuiHorizontalRule, EuiIcon, EuiPanel, EuiText} from "@elastic/eui";
-import {useContext, useState} from "react";
-import {AuthContext} from "@/pages/_app";
-import {MilestoneCard} from "@/components/milestoneCard";
-import {GenericMedia} from "@/types/apiResponses";
-import {ToastUtils} from "@/utils/toastUtils";
-import {MilestoneForm} from "@/components/milestoneForm";
+import { FundraiserPageProps } from "@/pages/fundraisers/[fundraiserId]";
+import { EuiButton, EuiFlexGroup, EuiFlexItem, EuiHorizontalRule, EuiIcon, EuiPanel, EuiText } from "@elastic/eui";
+import { useContext, useState } from "react";
+import { AuthContext } from "@/pages/_app";
+import { MilestoneCard } from "@/components/milestoneCard";
+import { GenericMedia } from "@/types/apiResponses";
+import { ToastUtils } from "@/utils/toastUtils";
+import { MilestoneForm } from "@/components/milestoneForm";
 
 type FundraiserMilestonesProps = Pick<
 	FundraiserPageProps,
@@ -31,7 +31,7 @@ function FundraiserMilestones(props: FundraiserMilestonesProps) {
 	} = props;
 
 	const mappedMilestones = fundraiserMilestones.map((milestoneData) => {
-		const {milestoneStatus} = milestoneData;
+		const { milestoneStatus } = milestoneData;
 		if (milestoneStatus === true) {
 			return 1 as number;
 		}
@@ -77,7 +77,7 @@ function FundraiserMilestones(props: FundraiserMilestonesProps) {
 												fill
 												onClick={() => setShowMilestoneForm(false)}
 											>
-												<EuiIcon type={"cross"}/>Hide Form
+												<EuiIcon type={"cross"} />Hide Form
 											</EuiButton>
 										) : (
 											<EuiButton
@@ -85,7 +85,7 @@ function FundraiserMilestones(props: FundraiserMilestonesProps) {
 												fill
 												onClick={() => setShowMilestoneForm(true)}
 											>
-												<EuiIcon type={"plus"}/>Add Milestone
+												<EuiIcon type={"plus"} />Add Milestone
 											</EuiButton>
 										)
 									}
@@ -96,7 +96,7 @@ function FundraiserMilestones(props: FundraiserMilestonesProps) {
 						}
 					</EuiFlexGroup>
 				</EuiFlexItem>
-				<EuiHorizontalRule margin={"xs"}/>
+				<EuiHorizontalRule margin={"xs"} />
 				<EuiFlexItem>
 					<EuiFlexGroup direction={"column"}>
 						{
@@ -127,7 +127,7 @@ function FundraiserMilestones(props: FundraiserMilestonesProps) {
 				{
 					showMilestoneForm ? (
 						<>
-							<EuiHorizontalRule margin={"xs"}/>
+							<EuiHorizontalRule margin={"xs"} />
 							<EuiFlexItem>
 								<MilestoneForm
 									fundraiserId={fundraiserId}

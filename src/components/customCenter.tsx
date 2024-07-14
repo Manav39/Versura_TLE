@@ -1,5 +1,5 @@
-import React, {Children} from "react";
-import {EuiFlexGroup, EuiFlexItem} from "@elastic/eui";
+import React, { Children } from "react";
+import { EuiFlexGroup, EuiFlexItem } from "@elastic/eui";
 
 interface EuiCenterProps {
 	children?: React.ReactNode
@@ -8,7 +8,7 @@ interface EuiCenterProps {
 	growChildren?: boolean
 }
 
-function EuiCenter({children, height, width, growChildren}: EuiCenterProps): JSX.Element {
+function EuiCenter({ children, height, width, growChildren }: EuiCenterProps): JSX.Element {
 	const resolvedHeight = height || 'inherit';
 	const resolvedWidth = width || 'inherit';
 

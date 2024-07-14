@@ -12,14 +12,14 @@ import {
 	EuiText,
 	useGeneratedHtmlId
 } from "@elastic/eui";
-import {FundraiserPageProps} from "@/pages/fundraisers/[fundraiserId]";
-import {useCallback, useContext, useState} from "react";
-import {AuthContext} from "@/pages/_app";
-import {makeAPIRequest} from "@/utils/apiHandler";
-import {APIResponse} from "@/types/apiResponses";
-import {FundraiserDonationBody, FundraiserDonationParams} from "@/types/apiRequests";
-import {calculateServiceFeeWeiForAmount, gasAmountMap, gasTokenMap, LINK_TEXT_COLOR_OVERRIDE} from "@/utils/common";
-import {ToastUtils} from "@/utils/toastUtils";
+import { FundraiserPageProps } from "@/pages/fundraisers/[fundraiserId]";
+import { useCallback, useContext, useState } from "react";
+import { AuthContext } from "@/pages/_app";
+import { makeAPIRequest } from "@/utils/apiHandler";
+import { APIResponse } from "@/types/apiResponses";
+import { FundraiserDonationBody, FundraiserDonationParams } from "@/types/apiRequests";
+import { calculateServiceFeeWeiForAmount, gasAmountMap, gasTokenMap, LINK_TEXT_COLOR_OVERRIDE } from "@/utils/common";
+import { ToastUtils } from "@/utils/toastUtils";
 import Link from "next/link";
 
 type DonationCardProps = Pick<
@@ -31,7 +31,7 @@ type DonationCardProps = Pick<
 
 function DonationCard(props: DonationCardProps) {
 	const authCtx = useContext(AuthContext);
-	const {fundraiserToken, fundraiserMinDonationAmount, fundraiserId, addToast} = props;
+	const { fundraiserToken, fundraiserMinDonationAmount, fundraiserId, addToast } = props;
 
 	const [donationAmount, setDonationAmount] = useState(fundraiserMinDonationAmount);
 	const [donationInvalid, setDonationInvalid] = useState(false);
@@ -92,7 +92,7 @@ function DonationCard(props: DonationCardProps) {
 				params: [requestParams],
 			});
 
-			const {isSuccess, isError, code, data, error} = await makeAPIRequest<
+			const { isSuccess, isError, code, data, error } = await makeAPIRequest<
 				APIResponse,
 				FundraiserDonationBody,
 				FundraiserDonationParams
@@ -119,7 +119,7 @@ function DonationCard(props: DonationCardProps) {
 			}
 
 			if (isSuccess && data) {
-				const {requestStatus} = data;
+				const { requestStatus } = data;
 				if (requestStatus === "SUCCESS") {
 					addToast(
 						"Transaction created successfully!",
@@ -161,7 +161,7 @@ function DonationCard(props: DonationCardProps) {
 						<h1>Fund this Campaign</h1>
 					</EuiText>
 				</EuiFlexItem>
-				<EuiHorizontalRule margin={"none"}/>
+				<EuiHorizontalRule margin={"none"} />
 				<EuiFlexItem>
 					<EuiForm fullWidth>
 						<EuiFormRow
@@ -240,7 +240,7 @@ function DonationCard(props: DonationCardProps) {
 									}
 								>
 									{donationRequestActive ? (
-										<EuiLoadingSpinner/>
+										<EuiLoadingSpinner />
 									) : (
 										`Send ${fundraiserToken}`
 									)}

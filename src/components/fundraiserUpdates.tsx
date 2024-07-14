@@ -1,5 +1,5 @@
-import {FundraiserPageProps} from "@/pages/fundraisers/[fundraiserId]";
-import {EuiTimelineProps} from "@elastic/eui/src/components/timeline/timeline";
+import { FundraiserPageProps } from "@/pages/fundraisers/[fundraiserId]";
+import { EuiTimelineProps } from "@elastic/eui/src/components/timeline/timeline";
 import {
 	EuiAvatar,
 	EuiButton,
@@ -10,11 +10,11 @@ import {
 	EuiText,
 	EuiTimeline
 } from "@elastic/eui";
-import {FundraiserUpdateCard} from "@/components/fundraiserUpdateCard";
-import {useContext, useState} from "react";
-import {UpdateForm} from "@/components/updateForm";
-import {ToastUtils} from "@/utils/toastUtils";
-import {AuthContext} from "@/pages/_app";
+import { FundraiserUpdateCard } from "@/components/fundraiserUpdateCard";
+import { useContext, useState } from "react";
+import { UpdateForm } from "@/components/updateForm";
+import { ToastUtils } from "@/utils/toastUtils";
+import { AuthContext } from "@/pages/_app";
 
 type FundraiserUpdatesProps = Pick<
 	FundraiserPageProps,
@@ -108,7 +108,7 @@ function FundraiserUpdates(props: FundraiserUpdatesProps) {
 						</EuiFlexItem>
 					</EuiFlexGroup>
 				</EuiFlexItem>
-				<EuiHorizontalRule margin={"xs"}/>
+				<EuiHorizontalRule margin={"xs"} />
 				<EuiFlexItem>
 					{
 						fundraiserUpdates.length > 0 ? (
@@ -145,7 +145,7 @@ function FundraiserUpdates(props: FundraiserUpdatesProps) {
 								{
 									(fundraiserUpdates.length === 0 && showUpdateForm) ? (
 										<>
-											<EuiHorizontalRule/>
+											<EuiHorizontalRule />
 											<EuiFlexItem>
 												<UpdateForm
 													fundraiserId={fundraiserId}

@@ -1,4 +1,4 @@
-import {APIResponse, GenericMedia, GetFundraiserResponse} from "@/types/apiResponses";
+import { APIResponse, GenericMedia, GetFundraiserResponse } from "@/types/apiResponses";
 import {
 	EuiAvatar,
 	EuiButton,
@@ -14,13 +14,13 @@ import {
 
 import PlaceholderImage from "@/assets/placeholder-image.png";
 import Image from "next/image";
-import {LINK_TEXT_COLOR_OVERRIDE} from "@/utils/common";
+import { LINK_TEXT_COLOR_OVERRIDE } from "@/utils/common";
 import Link from "next/link";
-import {useCallback} from "react";
-import {makeAPIRequest} from "@/utils/apiHandler";
-import {AdminUpdateFundraiserBody, AdminUpdateFundraiserParams} from "@/types/apiRequests";
-import {useToastList} from "@/utils/toastUtils";
-import {useRouter} from "next/router";
+import { useCallback } from "react";
+import { makeAPIRequest } from "@/utils/apiHandler";
+import { AdminUpdateFundraiserBody, AdminUpdateFundraiserParams } from "@/types/apiRequests";
+import { useToastList } from "@/utils/toastUtils";
+import { useRouter } from "next/router";
 
 type FundraiserCardProps = Omit<
 	GetFundraiserResponse["fundraiserData"],
@@ -41,7 +41,7 @@ function FundraiserApprovalCard(props: FundraiserCardProps) {
 		approvalOrRejectionProcessActive, global_setApprovalOrRejectionProcessActive
 	} = props;
 
-	const {toasts, addToast, dismissToast} = useToastList({
+	const { toasts, addToast, dismissToast } = useToastList({
 		toastIdFactoryFn: (toastCount, toastType) => {
 			return `admin-dashboard-fundraisers-${toastCount}`;
 		}
@@ -51,7 +51,7 @@ function FundraiserApprovalCard(props: FundraiserCardProps) {
 
 	let selectedFundraiserImage: GenericMedia | null = null;
 	for (const media of fundraiserMedia) {
-		const {mediaContentType} = media;
+		const { mediaContentType } = media;
 		if (mediaContentType.startsWith("image")) {
 			selectedFundraiserImage = media;
 			break;
@@ -92,7 +92,7 @@ function FundraiserApprovalCard(props: FundraiserCardProps) {
 		}
 
 		if (isSuccess && data) {
-			const {requestStatus} = data;
+			const { requestStatus } = data;
 			if (requestStatus === "SUCCESS") {
 				if (fundraiserStatus === "OPEN") {
 					addToast(
@@ -319,10 +319,10 @@ function FundraiserApprovalCard(props: FundraiserCardProps) {
 									>
 										{
 											approvalOrRejectionProcessActive ? (
-												<EuiLoadingSpinner/>
+												<EuiLoadingSpinner />
 											) : (
 												<>
-													<EuiIcon type={"check"}/> Approve
+													<EuiIcon type={"check"} /> Approve
 												</>
 											)
 										}
@@ -337,10 +337,10 @@ function FundraiserApprovalCard(props: FundraiserCardProps) {
 									>
 										{
 											approvalOrRejectionProcessActive ? (
-												<EuiLoadingSpinner/>
+												<EuiLoadingSpinner />
 											) : (
 												<>
-													<EuiIcon type={"cross"}/> Reject
+													<EuiIcon type={"cross"} /> Reject
 												</>
 											)
 										}

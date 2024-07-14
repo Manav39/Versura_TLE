@@ -8,16 +8,16 @@ import {
 	EuiPanel,
 	EuiText
 } from "@elastic/eui";
-import {FundraiserPageProps} from "@/pages/fundraisers/[fundraiserId]";
+import { FundraiserPageProps } from "@/pages/fundraisers/[fundraiserId]";
 import Link from "next/link";
-import {AuthContext} from "@/pages/_app";
-import {useCallback, useContext, useRef, useState} from "react";
-import {manageMedia} from "@/utils/common";
-import {makeAPIRequest} from "@/utils/apiHandler";
-import {APIResponse} from "@/types/apiResponses";
-import {AddFundraiserMediaBody, AddFundraiserMediaParams} from "@/types/apiRequests";
-import {ToastUtils} from "@/utils/toastUtils";
-import {useRouter} from "next/router";
+import { AuthContext } from "@/pages/_app";
+import { useCallback, useContext, useRef, useState } from "react";
+import { manageMedia } from "@/utils/common";
+import { makeAPIRequest } from "@/utils/apiHandler";
+import { APIResponse } from "@/types/apiResponses";
+import { AddFundraiserMediaBody, AddFundraiserMediaParams } from "@/types/apiRequests";
+import { ToastUtils } from "@/utils/toastUtils";
+import { useRouter } from "next/router";
 
 type FundraiserMediaProps = Pick<
 	FundraiserPageProps,
@@ -27,7 +27,7 @@ type FundraiserMediaProps = Pick<
 }
 
 function FundraiserMedia(props: FundraiserMediaProps) {
-	const {fundraiserMedia, fundraiserCreator, fundraiserId, addToast} = props;
+	const { fundraiserMedia, fundraiserCreator, fundraiserId, addToast } = props;
 
 	const authCtx = useContext(AuthContext);
 
@@ -97,7 +97,7 @@ function FundraiserMedia(props: FundraiserMediaProps) {
 					return;
 				}
 				if (isSuccess && data) {
-					const {requestStatus} = data;
+					const { requestStatus } = data;
 					if (requestStatus === "SUCCESS") {
 						addToast(
 							"File(s) uploaded successfully",
@@ -151,7 +151,7 @@ function FundraiserMedia(props: FundraiserMediaProps) {
 						}
 					</EuiFlexGroup>
 				</EuiFlexItem>
-				<EuiHorizontalRule margin={"xs"}/>
+				<EuiHorizontalRule margin={"xs"} />
 				<EuiFlexItem>
 					<EuiFlexGroup
 						direction={"row"}
@@ -163,7 +163,7 @@ function FundraiserMedia(props: FundraiserMediaProps) {
 					>
 						{
 							fundraiserMedia.map((mediaObject, mediaIndex) => {
-								const {mediaContentType, mediaURL, mediaName} = mediaObject;
+								const { mediaContentType, mediaURL, mediaName } = mediaObject;
 								if (mediaContentType.startsWith("image/")) {
 									return (
 										<EuiFlexItem key={mediaURL} grow={0} style={{
@@ -197,7 +197,7 @@ function FundraiserMedia(props: FundraiserMediaProps) {
 													alignItems={"center"}
 												>
 													<EuiFlexItem grow={0}>
-														<EuiIcon type={"filebeatApp"} size={"xxl"}/>
+														<EuiIcon type={"filebeatApp"} size={"xxl"} />
 													</EuiFlexItem>
 													<EuiFlexItem grow={0}>
 														<Link href={mediaURL} target={"_blank"}>

@@ -1,9 +1,9 @@
-import {GenericMedia, GetFundraiserResponse} from "@/types/apiResponses";
-import {EuiAvatar, EuiFlexGroup, EuiFlexItem, EuiLink, EuiPanel, EuiText} from "@elastic/eui";
+import { GenericMedia, GetFundraiserResponse } from "@/types/apiResponses";
+import { EuiAvatar, EuiFlexGroup, EuiFlexItem, EuiLink, EuiPanel, EuiText } from "@elastic/eui";
 
 import PlaceholderImage from "@/assets/placeholder-image.png"
 import Image from "next/image";
-import {LINK_TEXT_COLOR_OVERRIDE, useValueScale} from "@/utils/common";
+import { LINK_TEXT_COLOR_OVERRIDE, useValueScale } from "@/utils/common";
 import Link from "next/link";
 
 type FundraiserCardProps = Omit<
@@ -40,7 +40,7 @@ function FundraiserCard(props: FundraiserCardProps) {
 
 	let selectedFundraiserImage: GenericMedia | null = null;
 	for (const media of fundraiserMedia) {
-		const {mediaContentType} = media
+		const { mediaContentType } = media
 		if (mediaContentType.startsWith("image")) {
 			selectedFundraiserImage = media
 			break
