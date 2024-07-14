@@ -1,14 +1,14 @@
-import {EuiProvider} from '@elastic/eui';
-import {createContext, useEffect, useState} from "react";
+import { EuiProvider } from '@elastic/eui';
+import { createContext, useEffect, useState } from "react";
 
-import type {AppProps} from 'next/app'
+import type { AppProps } from 'next/app'
 
 import '@elastic/eui/dist/eui_theme_dark.css'
 import PageHeader from "@/components/pageHeader";
-import {AuthContextType, AuthData} from "@/types/componentTypedefs";
-import {useRouter} from "next/router";
-import {makeAPIRequest} from "@/utils/apiHandler";
-import {AuthRefreshResponse} from "@/types/apiResponses";
+import { AuthContextType, AuthData } from "@/types/componentTypedefs";
+import { useRouter } from "next/router";
+import { makeAPIRequest } from "@/utils/apiHandler";
+import { AuthRefreshResponse } from "@/types/apiResponses";
 
 
 const AuthContext = createContext<AuthContextType>({
@@ -22,7 +22,7 @@ const AuthContext = createContext<AuthContextType>({
 	}
 })
 
-export default function App({Component, pageProps}: AppProps) {
+export default function App({ Component, pageProps }: AppProps) {
 	const [authData, setAuthData] = useState<AuthData>({
 		isAuthenticated: false,
 		metamaskAddress: undefined,
@@ -45,13 +45,13 @@ export default function App({Component, pageProps}: AppProps) {
 			endpointPath: "/api/auth/refresh",
 			requestMethod: "POST"
 		}).then((responseData) => {
-			const {isSuccess, isError, code, data, error} = responseData
+			const { isSuccess, isError, code, data, error } = responseData
 			if (isError && error) {
 				console.error(error)
 				return
 			}
 			if (isSuccess && data) {
-				const {requestStatus, authStatus, authData} = data
+				const { requestStatus, authStatus, authData } = data
 				if (requestStatus === "SUCCESS") {
 					if (authStatus === "NO_AUTH") {
 						setAuthData({
@@ -62,7 +62,7 @@ export default function App({Component, pageProps}: AppProps) {
 						return
 					}
 					if (authStatus === "AUTH_ACTIVE") {
-						const {userRole, walletAddress} = authData!
+						const { userRole, walletAddress } = authData!
 						setAuthData({
 							isAuthenticated: true,
 							userRole: userRole,
@@ -82,7 +82,7 @@ export default function App({Component, pageProps}: AppProps) {
 			<EuiProvider colorMode={"dark"}>
 				<AuthContext.Provider value={authContextValue}>
 					{showPageHeader ? (
-						<PageHeader/>
+						<PageHeader />
 					) : null}
 					<Component
 						{...pageProps}
