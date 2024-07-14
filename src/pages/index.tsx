@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import {EuiButton, EuiFlexGroup, EuiFlexItem, EuiPageTemplate, EuiText} from "@elastic/eui"
+import { EuiButton, EuiFlexGroup, EuiFlexItem, EuiPageTemplate, EuiText } from "@elastic/eui"
 
 import Image from 'next/image'
 
@@ -13,9 +13,9 @@ export default function IndexPage() {
 		<>
 			<Head>
 				<title>Versura</title>
-				<meta name="description" content="Versura, a blockchain based crowdfunding platform"/>
-				<meta name="viewport" content="width=device-width, initial-scale=1"/>
-				<link rel="icon" href="/favicon.ico"/>
+				<meta name="description" content="Versura, a blockchain based crowdfunding platform" />
+				<meta name="viewport" content="width=device-width, initial-scale=1" />
+				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<EuiPageTemplate
 				panelled={true}
@@ -60,7 +60,7 @@ export default function IndexPage() {
 										Using revolutionary Ethereum blockchain technology, we guarantee* management of
 										funds to the last <i>wei</i>.
 									</h4>
-									<br/>
+									<br />
 									<small>
 										<i>* Terms and Conditions Apply</i>
 									</small>

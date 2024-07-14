@@ -9,9 +9,9 @@ import {
 	requireQueryParamValidators,
 	requireValidBody
 } from "@/utils/customMiddleware"
-import {db} from "@/utils/db";
-import {CreateFundraiserRequestBody, GetFundraiserFeedRequestParams} from "@/types/apiRequests";
-import {FundRaisers, S3BucketObjects} from "@/types/queryTypedefs";
+import { db } from "@/utils/db";
+import { CreateFundraiserRequestBody, GetFundraiserFeedRequestParams } from "@/types/apiRequests";
+import { FundRaisers, S3BucketObjects } from "@/types/queryTypedefs";
 import {
 	ALLOW_UNDEFINED_WITH_FN,
 	NON_ZERO_NON_NEGATIVE,
@@ -19,9 +19,9 @@ import {
 	STRING_TO_NUM_FN,
 	STRLEN_GT
 } from "@/utils/validatorUtils";
-import {CreateFundraiserResponse, GenericMedia, GetFundraiserFeedResponse} from "@/types/apiResponses";
-import {withMethodDispatcher} from "@/utils/methodDispatcher"
-import {getObjectUrl} from "@/utils/s3";
+import { CreateFundraiserResponse, GenericMedia, GetFundraiserFeedResponse } from "@/types/apiResponses";
+import { withMethodDispatcher } from "@/utils/methodDispatcher"
+import { getObjectUrl } from "@/utils/s3";
 
 type FundraiserRequestBodyMap = {
 	GET: any,
@@ -79,7 +79,7 @@ async function createFundraiser(req: CustomApiRequest<CreateFundraiserRequestBod
 		fundraiserToken = fundraiserToken || "ETH"
 		fundraiserMinDonationAmount = fundraiserMinDonationAmount || 1e-18
 
-		const {walletAddress} = req.user!
+		const { walletAddress } = req.user!
 
 		const dbCreateResponse = await dbClient.query<Pick<FundRaisers, "fundraiserId">>(
 			`INSERT INTO "fundRaisers"
@@ -89,9 +89,9 @@ async function createFundraiser(req: CustomApiRequest<CreateFundraiserRequestBod
 			[walletAddress, fundraiserTitle, fundraiserDescription, fundraiserTarget, fundraiserToken, fundraiserMinDonationAmount]
 		)
 
-		const {rows} = dbCreateResponse
+		const { rows } = dbCreateResponse
 		const returnedFundRaiserRow = rows[0]
-		const {fundraiserId} = returnedFundRaiserRow
+		const { fundraiserId } = returnedFundRaiserRow
 
 		res.status(200).json<CreateFundraiserResponse>({
 			requestStatus: "SUCCESS",
@@ -131,7 +131,7 @@ async function getFundraiserFeed(req: CustomApiRequest<any, GetFundraiserFeedReq
 			return
 		}
 
-		let {feedPage} = req.query
+		let { feedPage } = req.query
 		feedPage = feedPage || "1"
 
 		const parsedFeedPage = Number.parseInt(feedPage)
@@ -140,7 +140,7 @@ async function getFundraiserFeed(req: CustomApiRequest<any, GetFundraiserFeedReq
 
 		const feedPageOffset = (parsedFeedPage - 1) * 10
 
-		const {rows: feedRows} = await dbClient.query<FundRaisers>(
+		const { rows: feedRows } = await dbClient.query<FundRaisers>(
 			`SELECT *
 			 FROM "fundRaisers"
 			 WHERE "fundraiserStatus" = 'OPEN'
@@ -151,10 +151,10 @@ async function getFundraiserFeed(req: CustomApiRequest<any, GetFundraiserFeedReq
 
 		const feedRowsWithMedia = await Promise.all(
 			feedRows.map(async (feedRow) => {
-				const {fundraiserMediaObjectKeys} = feedRow
+				const { fundraiserMediaObjectKeys } = feedRow
 				const fundraiserMedia: GenericMedia[] = []
 
-				const {rows: objectContentTypeRows} = await dbClient.query<Pick<S3BucketObjects, "objectKey" | "objectContentType" | "objectName">>(
+				const { rows: objectContentTypeRows } = await dbClient.query<Pick<S3BucketObjects, "objectKey" | "objectContentType" | "objectName">>(
 					`SELECT "objectKey", "objectContentType", "objectName"
 					 FROM "internalS3BucketObjects"
 					 WHERE "objectKey" = ANY ($1)`,
@@ -165,7 +165,7 @@ async function getFundraiserFeed(req: CustomApiRequest<any, GetFundraiserFeedReq
 				const objectKeyNameMap: { [objKey: string]: string } = {}
 
 				for (const objectContentTypeRow of objectContentTypeRows) {
-					const {objectKey, objectContentType, objectName} = objectContentTypeRow
+					const { objectKey, objectContentType, objectName } = objectContentTypeRow
 					objectKeyContentMap[objectKey] = objectContentType
 					objectKeyNameMap[objectKey] = objectName
 				}
