@@ -1,7 +1,7 @@
-import {ValidatorMapType} from "@/utils/customMiddleware";
-import {makeAPIRequest} from "@/utils/apiHandler";
-import {MediaCallbackResponse, PresignedURLResponse} from "@/types/apiResponses";
-import {MediaCallbackBody, PresignedURLBody} from "@/types/apiRequests";
+import { ValidatorMapType } from "@/utils/customMiddleware";
+import { makeAPIRequest } from "@/utils/apiHandler";
+import { MediaCallbackResponse, PresignedURLResponse } from "@/types/apiResponses";
+import { MediaCallbackBody, PresignedURLBody } from "@/types/apiRequests";
 
 const LINK_TEXT_COLOR_OVERRIDE = "#DFE5EF" as const
 
@@ -65,7 +65,7 @@ async function requireBasicObjectValidation<T>(objToValidate: T, validationMap: 
 }
 
 async function manageMedia(args: MediaManagementArgs): Promise<boolean[]> {
-	const {mediaFiles, mediaMethod, objectKeyGenFn, stepCompletionCallbacks} = args
+	const { mediaFiles, mediaMethod, objectKeyGenFn, stepCompletionCallbacks } = args
 	const mediaManagementStatuses: boolean[] = [false, false, false]
 
 	let presignedUrls: string[] = []
@@ -89,9 +89,9 @@ async function manageMedia(args: MediaManagementArgs): Promise<boolean[]> {
 					}
 				})
 				if (isSuccess && data) {
-					const {requestStatus} = data
+					const { requestStatus } = data
 					if (requestStatus === "SUCCESS") {
-						const {presignedUrl} = data
+						const { presignedUrl } = data
 						stepCompletionCallbacks?.onAcquirePresignedUrl(mediaIdx)
 						return presignedUrl
 					} else {
@@ -155,7 +155,7 @@ async function manageMedia(args: MediaManagementArgs): Promise<boolean[]> {
 		let mediaCallbackStatuses = await Promise.all(
 			mediaFiles.map(async (mediaFile, fileIdx) => {
 				const objectKey = objectKeyGenFn(mediaFile, fileIdx)
-				const {type: objectContentType, size: objectSizeBytes, name} = mediaFile
+				const { type: objectContentType, size: objectSizeBytes, name } = mediaFile
 				const {
 					isSuccess,
 					isError,
@@ -174,7 +174,7 @@ async function manageMedia(args: MediaManagementArgs): Promise<boolean[]> {
 					}
 				})
 				if (isSuccess && data) {
-					const {requestStatus} = data
+					const { requestStatus } = data
 					if (requestStatus === "SUCCESS") {
 						stepCompletionCallbacks?.onAPIMediaCallback(fileIdx)
 						return true

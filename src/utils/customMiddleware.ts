@@ -1,8 +1,8 @@
-import type {NextApiRequest, NextApiResponse} from "next";
-import type {DecodedJWTCookie} from "@/types/apiTypedefs";
-import {verify} from "jsonwebtoken";
-import {db} from "@/utils/db";
-import {APIResponse, APIResponseCode} from "@/types/apiResponses";
+import type { NextApiRequest, NextApiResponse } from "next";
+import type { DecodedJWTCookie } from "@/types/apiTypedefs";
+import { verify } from "jsonwebtoken";
+import { db } from "@/utils/db";
+import { APIResponse, APIResponseCode } from "@/types/apiResponses";
 
 // @ts-ignore
 export interface CustomApiRequest<BodyType = any, QueryType = any> extends NextApiRequest {
@@ -44,7 +44,7 @@ export type ValidatorMapType<T> = {
 function requireMethods(...acceptedMethods: ValidRequestMethods[]): MiddlewareFn {
 	return async function (req: CustomApiRequest, res: CustomApiResponse, middlewareOptions: MiddlewareOptions): Promise<void> {
 		const reqMethod = req.method as ValidRequestMethods || "GET"
-		const {middlewareCallStack, nextMiddleware} = middlewareOptions
+		const { middlewareCallStack, nextMiddleware } = middlewareOptions
 		if (!acceptedMethods.includes(reqMethod)) {
 			res.status(405).json({
 				requestStatus: "ERR_INVALID_METHOD"
@@ -61,7 +61,7 @@ function requireMethods(...acceptedMethods: ValidRequestMethods[]): MiddlewareFn
 
 function requireValidBody(): MiddlewareFn {
 	return async function (req: CustomApiRequest, res: CustomApiResponse, middlewareOptions: MiddlewareOptions): Promise<void> {
-		const {middlewareCallStack, nextMiddleware} = middlewareOptions
+		const { middlewareCallStack, nextMiddleware } = middlewareOptions
 
 		const acceptedRequestMethods: ValidRequestMethods[] = ["POST", "PUT", "PATCH"]
 		if (!acceptedRequestMethods.includes(req.method as ValidRequestMethods || "GET")) {
@@ -88,7 +88,7 @@ function requireValidBody(): MiddlewareFn {
 
 function requireBodyParams<T>(...bodyParams: (keyof T)[]): MiddlewareFn<T> {
 	return async function (req: CustomApiRequest<T>, res: CustomApiResponse, middlewareOptions: MiddlewareOptions): Promise<void> {
-		const {middlewareCallStack, nextMiddleware} = middlewareOptions
+		const { middlewareCallStack, nextMiddleware } = middlewareOptions
 		if (!middlewareCallStack.includes(requireValidBody.name)) {
 			throw new Error(
 				"requireBodyParams was called without verifying a valid body"
@@ -117,7 +117,7 @@ function requireBodyParams<T>(...bodyParams: (keyof T)[]): MiddlewareFn<T> {
 
 function requireQueryParams<T, P>(...queryParams: (keyof P)[]): MiddlewareFn<T, P> {
 	return async function (req: CustomApiRequest<T, P>, res: CustomApiResponse, middlewareOptions: MiddlewareOptions): Promise<void> {
-		const {middlewareCallStack, nextMiddleware} = middlewareOptions
+		const { middlewareCallStack, nextMiddleware } = middlewareOptions
 		const requestQueryKeys = Object.keys(req.query) as (keyof P)[]
 		const missingQueryParams: (keyof P)[] = queryParams.filter((queryParam) => {
 			if (requestQueryKeys.includes(queryParam as keyof P) && req.query[queryParam] !== undefined) {
@@ -142,7 +142,7 @@ function requireQueryParams<T, P>(...queryParams: (keyof P)[]): MiddlewareFn<T, 
 function requireAuthenticatedUser(): MiddlewareFn {
 	return async function (req: CustomApiRequest, res: CustomApiResponse, middlewareOptions: MiddlewareOptions): Promise<void> {
 		const authCookie = req.cookies["versura-auth-token"];
-		const {nextMiddleware} = middlewareOptions
+		const { nextMiddleware } = middlewareOptions
 		if (authCookie == null || authCookie == '') {
 			res.status(403).json({
 				requestStatus: "ERR_AUTH_REQUIRED"
@@ -158,9 +158,9 @@ function requireAuthenticatedUser(): MiddlewareFn {
 				authCookie,
 				process.env.JWT_SECRET!
 			) as DecodedJWTCookie
-			const {walletAddress, userRole} = decodedCookie
+			const { walletAddress, userRole } = decodedCookie
 
-			const {rows: currentUserRows} = await dbClient.query(
+			const { rows: currentUserRows } = await dbClient.query(
 				`SELECT 1
                  FROM "authUsers"
                  WHERE "walletAddress" = $1
@@ -202,7 +202,7 @@ function requireAuthenticatedUser(): MiddlewareFn {
 
 function requireAdminUser(): MiddlewareFn {
 	return async function (req, res, opts) {
-		const {middlewareCallStack, nextMiddleware} = opts
+		const { middlewareCallStack, nextMiddleware } = opts
 		if (!middlewareCallStack.includes(requireAuthenticatedUser.name)) {
 			throw new Error(
 				"requireAdminUser was called without verifying authentication status"
@@ -210,7 +210,7 @@ function requireAdminUser(): MiddlewareFn {
 		}
 
 		const currentUser = req.user!
-		const {userRole} = currentUser
+		const { userRole } = currentUser
 		if (userRole == "ADMIN") {
 			nextMiddleware(true)
 			return
@@ -226,7 +226,7 @@ function requireAdminUser(): MiddlewareFn {
 function optionalAuthenticatedUser(): MiddlewareFn {
 	return async function (req: CustomApiRequest, res: CustomApiResponse, middlewareOptions: MiddlewareOptions): Promise<void> {
 		const authCookie = req.cookies["versura-auth-token"];
-		const {nextMiddleware} = middlewareOptions
+		const { nextMiddleware } = middlewareOptions
 		if (authCookie == null || authCookie == '') {
 			nextMiddleware(true)
 			return
@@ -239,9 +239,9 @@ function optionalAuthenticatedUser(): MiddlewareFn {
 				authCookie,
 				process.env.JWT_SECRET!
 			) as DecodedJWTCookie
-			const {walletAddress, userRole} = decodedCookie
+			const { walletAddress, userRole } = decodedCookie
 
-			const {rows: currentUserRows} = await dbClient.query(
+			const { rows: currentUserRows } = await dbClient.query(
 				`SELECT 1
                  FROM "authUsers"
                  WHERE "walletAddress" = $1
@@ -283,7 +283,7 @@ function optionalAuthenticatedUser(): MiddlewareFn {
 
 function requireBodyValidators<T, P>(validatorsToRun: ValidatorMapType<T>, skipBodyParamRequirement: boolean = false): MiddlewareFn<T, P> {
 	return async function (req: CustomApiRequest<T, P>, res: CustomApiResponse, middlewareOptions: MiddlewareOptions) {
-		const {middlewareCallStack, nextMiddleware} = middlewareOptions
+		const { middlewareCallStack, nextMiddleware } = middlewareOptions
 		if (!skipBodyParamRequirement && !middlewareCallStack.includes(requireBodyParams.name)) {
 			throw new Error(
 				"requireBodyValidators was called without verifying all properties in body (requireBodyParams)"
@@ -317,7 +317,7 @@ function requireBodyValidators<T, P>(validatorsToRun: ValidatorMapType<T>, skipB
 
 function requireQueryParamValidators<T, P>(validatorsToRun: ValidatorMapType<P>, skipQueryParamRequirement: boolean = false): MiddlewareFn<T, P> {
 	return async function (req: CustomApiRequest<T, P>, res: CustomApiResponse, middlewareOptions: MiddlewareOptions) {
-		const {middlewareCallStack, nextMiddleware} = middlewareOptions
+		const { middlewareCallStack, nextMiddleware } = middlewareOptions
 		if (!skipQueryParamRequirement && !middlewareCallStack.includes(requireQueryParams.name)) {
 			throw new Error(
 				"requireQueryParamValidators was called without verifying all properties in body (requireQueryParams)"
@@ -391,7 +391,7 @@ async function requireMiddlewareChecks<T, P>(req: CustomApiRequest<T, P>, res: C
 }
 
 async function adaptedMiddleware<BodyT, ParamT>(adapterArgs: MiddlewareAdapterArgs<BodyT, ParamT>): Promise<boolean> {
-	const {req, res, emulatedMiddlewareStack, middlewareToEmulate} = adapterArgs
+	const { req, res, emulatedMiddlewareStack, middlewareToEmulate } = adapterArgs
 
 	const emulatedMiddlewareStatus = {
 		middlewareStatus: false

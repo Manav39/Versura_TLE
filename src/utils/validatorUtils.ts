@@ -1,4 +1,4 @@
-import {db} from "@/utils/db";
+import { db } from "@/utils/db";
 
 enum PARSE_METHOD {
 	PARSE_INT,
@@ -71,7 +71,7 @@ function ALLOW_UNDEFINED_WITH_FN<T>(fn: (value: T) => (boolean | Promise<boolean
 
 async function VALID_FUNDRAISER_ID_CHECK(fundraiserId: string) {
 	const dbClient = await db.connect()
-	const {rows} = await dbClient.query(
+	const { rows } = await dbClient.query(
 		`SELECT 1
 		 FROM "fundRaisers"
 		 WHERE "fundraiserId" = $1`,
@@ -88,7 +88,7 @@ async function VALID_FUNDRAISER_ID_CHECK(fundraiserId: string) {
 
 async function VALID_MILESTONE_ID_CHECK(milestoneId: string) {
 	const dbClient = await db.connect()
-	const {rows} = await dbClient.query(
+	const { rows } = await dbClient.query(
 		`SELECT 1
 		 FROM "fundraiserMilestones"
 		 WHERE "milestoneId" = $1`,
@@ -105,7 +105,7 @@ async function VALID_MILESTONE_ID_CHECK(milestoneId: string) {
 
 async function VALID_UPDATE_ID_CHECK(updateId: string) {
 	const dbClient = await db.connect()
-	const {rows} = await dbClient.query(
+	const { rows } = await dbClient.query(
 		`SELECT 1
 		 FROM "fundraiserUpdates"
 		 WHERE "updateId" = $1`,
@@ -122,7 +122,7 @@ async function VALID_UPDATE_ID_CHECK(updateId: string) {
 
 async function VALID_OBJECT_KEY_CHECK(objectKey: string) {
 	const dbClient = await db.connect()
-	const {rows} = await dbClient.query(
+	const { rows } = await dbClient.query(
 		`SELECT 1
 		 FROM "internalS3BucketObjects"
 		 WHERE "objectKey" = $1`,

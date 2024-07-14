@@ -1,6 +1,6 @@
-import {ValidRequestMethods} from "@/utils/customMiddleware";
-import {APIResponse, APIResponseCode} from "@/types/apiResponses";
-import {GetServerSidePropsContext} from "next";
+import { ValidRequestMethods } from "@/utils/customMiddleware";
+import { APIResponse, APIResponseCode } from "@/types/apiResponses";
+import { GetServerSidePropsContext } from "next";
 
 export type APIRequestParams<Body, Params> = {
 	endpointPath: string,
@@ -20,7 +20,7 @@ export type APIRequestResponse<T> = {
 }
 
 async function makeAPIRequest<ResponseT extends APIResponse, RequestBodyT = {}, RequestParamsT = {}>(reqParams: APIRequestParams<RequestBodyT, RequestParamsT>): Promise<APIRequestResponse<ResponseT>> {
-	let {requestMethod, endpointPath, queryParams, bodyParams, ssrContext} = reqParams
+	let { requestMethod, endpointPath, queryParams, bodyParams, ssrContext } = reqParams
 	let requestOptions: RequestInit = {
 		method: requestMethod,
 		headers: {
