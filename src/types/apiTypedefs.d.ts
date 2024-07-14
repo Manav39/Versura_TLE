@@ -1,6 +1,6 @@
 // Refer to file `@/utils/init.sql` for PostgreSQL type definitions
 
-import {UserRole} from "@/types/queryTypedefs";
+import { UserRole } from "@/types/queryTypedefs";
 
 interface DecodedJWTCookie {
 	walletAddress: string,

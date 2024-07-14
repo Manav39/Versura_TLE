@@ -6,13 +6,13 @@ import {
 	FundraiserWithdrawalRequests,
 	UserRole
 } from "@/types/queryTypedefs";
-import {DecodedJWTCookie} from "@/types/apiTypedefs";
-import {AdminDashboardData} from "@/pages/api/admin/dashboard";
+import { DecodedJWTCookie } from "@/types/apiTypedefs";
+import { AdminDashboardData } from "@/pages/api/admin/dashboard";
 
 export type APIResponseCode =
 	0 | 200 | 400 | 403 | 404 | 405 | 500
 export type APIResponseRequestStatus =
-// 2xx
+	// 2xx
 	"SUCCESS" |
 	// 3xx
 	// 4xx
@@ -115,14 +115,14 @@ interface CreateFundraiserUpdateResponse extends APIResponse {
 interface AdminGetWithdrawalResponse extends APIResponse {
 	pendingWithdrawals: (
 		Omit<FundraiserWithdrawalRequests, "targetFundraiser"> & {
-		targetFundraiser: {
-			fundraiserId: number,
-			fundraiserTitle: string,
-			fundraiserRaisedAmount: number,
-			fundraiserTarget: number
+			targetFundraiser: {
+				fundraiserId: number,
+				fundraiserTitle: string,
+				fundraiserRaisedAmount: number,
+				fundraiserTarget: number
+			}
 		}
-	}
-		)[]
+	)[]
 }
 
 interface AdminGetFundraisersResponse extends APIResponse {

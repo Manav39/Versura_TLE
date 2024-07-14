@@ -1,4 +1,4 @@
-import {UserRole} from "@/types/queryTypedefs";
+import { UserRole } from "@/types/queryTypedefs";
 
 export type AuthData = {
 	isAuthenticated: boolean,
